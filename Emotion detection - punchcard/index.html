@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+ 
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+
+<script>
+
+    var sessiondata = [];
+
+    $(function() {
+
+
+   var sessions = [];
+   console.log("Created sessions array")
+
+   $.getJSON('SessionOutput.json', function(punchcard_data) {
+       $.each(punchcard_data, function(playerIndex, player) {
+        $.each(player.SessionData,function(sessionIndex, val){
+          var subarray = []
+          subarray.push(player.SessionDate)
+          subarray.push(val.time)
+          subarray.push(val.emotion)
+
+          sessiondata.push(subarray)
+          console.log(sessiondata)
+        })
+          
+     });
+
+   });
+
+});
+</script>
+</head>
+
+
+
+
+<style>
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;	
+    shape-rendering: geometricPrecision;
+}
+ 
+.axis text {
+    font-family: sans-serif;
+    font-size: 14px;
+}
+ 
+.loading {
+    font-family: sans-serif;
+    font-size: 18px;
+}
+ 
+.point {
+  fill: #0000ff;
+  stroke: #000;
+  stroke-width:1;
+}
+
+.tooltip {
+  position: absolute;
+  text-align: center; 
+  pointer-events: none;
+  background-color: #c6dbef	;
+  border: solid 1px #aaa;
+  border-radius: 8px;
+  width: 90px;                  
+  height: 28px;                 
+  padding: 2px;             
+  font: 12px sans-serif; 
+  font-weight: bold;	
+}
+
+
+.happy{
+  fill: #00ff00;
+}
+
+.surprise{
+  fill: #df80ff;
+}
+
+.angry{
+  fill: #ff0000;
+}
+
+.sad{
+  fill: #4444ff;
+}
+
+circle {
+  stroke: black; 
+  stroke-width: 2px;
+  stroke-opacity: 1;
+}
+
+.pulse {
+  fill: white;
+  fill-opacity: 0;
+  transform-origin: 50% 50%;
+  animation-duration: 2s;
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+  from {
+    stroke-width: 3px;
+    stroke-opacity: 1;
+    transform: scale(0.3);
+  }
+  to {
+    stroke-width: 0;
+    stroke-opacity: 0;
+    transform: scale(2);
+  }
+}
+
+
+
+
+
+
+
+</style>
+
+<body>
+  
+
+
+
+<svg width="1080" height="620" class="viz">
+<defs>
+    <linearGradient id="sad_angry" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgb(68,68,255);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+    </linearGradient>
+  </defs>
+   <g transform="translate(0,0)">
+      <g class="day" transform="translate(0, 30)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">11 May 2015</text>
+         <g class="hour" transform="translate(110, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(170, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(230, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(290, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour happy" transform="translate(350, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour happy" transform="translate(410, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour sad" transform="translate(470, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(530, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(590, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour happy" transform="translate(650, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+      </g>
+      </g>
+      <g class="day" transform="translate(0, 80)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">12 May 2015</text>
+         <g class="hour" transform="translate(110, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour surprise" transform="translate(170, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour happy" transform="translate(230, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(290, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(350, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour angry" transform="translate(410, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(470, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(530, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(590, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour happy" transform="translate(650, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+      </g>
+      </g>
+      <g class="day" transform="translate(0, 130)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">13 May 2015</text>
+         <g class="hour" transform="translate(110, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(170, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(230, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(290, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(350, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(410, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(470, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour sad" transform="translate(530, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(590, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(650, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+      </g>
+      </g>
+      <g class="day" transform="translate(0, 180)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">14 May 2015</text>
+         <g class="hour happy" transform="translate(110, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(170, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour sad" transform="translate(230, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(290, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(350, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(410, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour happy" transform="translate(470, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour surprise" transform="translate(530, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour angry" transform="translate(590, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(650, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+      </g>
+      </g>
+      <g class="day" transform="translate(0, 230)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">15 May 2015</text>
+         <g class="hour" transform="translate(110, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(170, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" fill="url(#sad_angry)" transform="translate(230, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(290, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(350, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(410, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(470, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(530, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(590, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(650, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+      </g>
+      </g>
+      <g class="day" transform="translate(0, 280)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">16 May 2015</text>
+         <g class="hour" transform="translate(110, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(170, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour happy" transform="translate(230, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour surprise" transform="translate(290, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour sad" transform="translate(350, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(410, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour sad" transform="translate(470, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(530, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour angry" transform="translate(590, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour angry" transform="translate(650, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+      </g>
+      </g>
+      <g class="day" transform="translate(0, 330)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">17 May 2015</text>
+         <g class="hour" transform="translate(110, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(170, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(230, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour sad" transform="translate(290, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(350, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(410, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(470, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(530, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour happy" transform="translate(590, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(650, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+      </g>
+      </g>
+      <g class="day" transform="translate(0, 380)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">18 May 2015</text>
+         <g class="hour" transform="translate(110, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(170, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(230, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(290, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(350, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour sad" transform="translate(410, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(470, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(530, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(590, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(650, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+      </g>
+      </g>
+      <g class="day" transform="translate(0, 430)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">19 May 2015</text>
+         <g class="hour" transform="translate(110, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(170, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(230, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(290, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(350, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(410, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour happy" transform="translate(470, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(530, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour surprise" transform="translate(590, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour surprise" transform="translate(650, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+      </g>
+      </g>
+      <g class="day" transform="translate(0, 480)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">20 May 2015</text>
+         <g class="hour" transform="translate(110, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(170, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour happy" transform="translate(230, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(290, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(350, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour happy" transform="translate(410, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour surprise" transform="translate(470, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour happy" transform="translate(530, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+         <g class="hour" transform="translate(590, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+         <g class="hour" transform="translate(650, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle r="8" cy="25" class="day"></circle>
+         </g>
+      </g>
+      <g>
+         <text text-anchor="middle" transform="translate(110, 530)" class="label">0-2</text>
+         <text text-anchor="middle" transform="translate(170, 530)" class="label">2-4</text>
+         <text text-anchor="middle" transform="translate(230, 530)" class="label">4-6</text>
+         <text text-anchor="middle" transform="translate(290, 530)" class="label">6-8</text>
+         <text text-anchor="middle" transform="translate(350, 530)" class="label">8-10</text>
+         <text text-anchor="middle" transform="translate(410, 530)" class="label">10-12</text>
+         <text text-anchor="middle" transform="translate(470, 530)" class="label">12-14</text>
+         <text text-anchor="middle" transform="translate(530, 530)" class="label">14-16</text>
+         <text text-anchor="middle" transform="translate(590, 530)" class="label">16-18</text>
+         <text text-anchor="middle" transform="translate(650, 530)" class="label">18-20</text>
+      </g>
+   </g>
+   <g>
+    <text text-anchor="middle" transform="translate(330, 570)" class="label">Experiment time intervals (secs)</text>
+    <text text-anchor="middle" transform="translate(265, 20)" class="label">Consecutive days of identical intreval, conditions & emotions for each experiment</text>
+   </g>
+   <g class="day" transform="translate(750, 50)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">Happy</text>
+         <g class="hour happy" transform="translate(120, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+    </g>
+    <g class="day" transform="translate(750, 90)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">Sad</text>
+         <g class="hour sad" transform="translate(120, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+    </g>
+    <g class="day" transform="translate(750, 130)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">Surprise</text>
+         <g class="hour surprise" transform="translate(120, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+    </g>
+    <g class="day" transform="translate(750, 170)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">Angry</text>
+         <g class="hour angry" transform="translate(120, 0)" width="32">
+            <line x1="0" y1="50" x2="0" y2="60" class="axis odd"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+    </g>
+    <g class="day" transform="translate(750, 210)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">Sad and Angry</text>
+         <g class="hour" fill="url(#sad_angry)" transform="translate(120, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+            <circle class = "pulse" cy = "25" r = "10"></circle>
+         </g>
+    </g>
+    <g class="day" transform="translate(750, 250)">
+         <line x1="0" y1="60" x2="980" y2="60" class="axis"></line>
+         <text class="day-name" dy="30">Neutral</text>
+         <g class="hour" transform="translate(120, 0)" width="32">
+            <line x1="0" y1="45" x2="0" y2="60" class="axis even"></line>
+            <circle cy = "25" r = "8"></circle>
+         </g>
+    </g>
+</svg>
+
+</body>
