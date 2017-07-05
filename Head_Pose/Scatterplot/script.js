@@ -24,11 +24,11 @@
         .attr("text-anchor", "middle")  
         .style("font-size", "25px") 
         .attr("fill", "#414241")
-        .style("text-decoration", "underline")  
-        .text("Player Movement vs Time Graph ");
+        //.style("text-decoration", "underline")  
+        .text("Head Pose Changes Across Time");
 
 	//set x axis number of ticks
-	var x_axis_ticks = 22;
+	var x_axis_ticks = 20;
 	
 	d3.json('SessionOutput.json', function(punchcard_data) {
 	  var x = d3.scale.linear().domain([0, x_axis_ticks]).range([left_pad, w - pad]),
